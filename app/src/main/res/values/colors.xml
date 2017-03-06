@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="color_black008">#17000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="colorSelectedBg">#CCCCCC</color>
+    <color name="colorWite">#FFFFFF</color>
+    <color name="default_toolbar_bg_color">#FFFFFF</color>
+
+    <color name="products_toolbar_bg_color">#ff0000</color>
+    <color name="products_content_bg_color">#ffffff</color>
+    <color name="products_text_color">#ffffff</color>
+
+
+    <color name="my_receipts_toolbar_bg_color">#298f00</color>
+    <color name="my_receipts_content_bg_color">#ffffff</color>
+
+    <color name="receipts_toolbar_bg_color">#0003bf</color>
+    <color name="receipts_content_bg_color">#FFFFFF</color>
+
+
+</resources>
