@@ -6,4 +6,6 @@ package com.osh.exchangeapp.application;
 public class AppConst {
 
     public static String baseUrl = "http://download.finance.yahoo.com";
+
+    public static String ACTION_WIDGET_RECEIVER = "ACTION_WIDGET_RECEIVER";
 }
