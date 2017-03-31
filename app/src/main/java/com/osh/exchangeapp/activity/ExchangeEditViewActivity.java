@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.osh.exchangeapp.R;
 import com.osh.exchangeapp.domain.ExchangeKey;
@@ -44,7 +46,10 @@ public class ExchangeEditViewActivity extends BaseActivity implements ExchangeVi
         presenter = new ExchangeViewActivityPresenterImpl(appNavigator, getId(), interactor, this);
         ViewUtils.onClick(this, R.id.save, v->presenter.onSave());
         ViewUtils.onClick(this, R.id.cancel, v->presenter.onCancel());
-        ViewUtils.onTextChangedAsInt(this, R.id.amount, t->presenter.onAmountChanged(t));
+        ViewUtils.onClick(this, R.id.switch_currencies, v->presenter.onSwitchCurrencies());
+
+        ViewUtils.onTextChangedAsDecimal(this, R.id.amount, t->presenter.onAmountChanged(t));
+
 
     }
 
@@ -72,6 +77,13 @@ public class ExchangeEditViewActivity extends BaseActivity implements ExchangeVi
     public void showRate(ExchangeKey exchanges) {
         Log.d(TAG, exchanges.toString());
         ViewUtils.setText(this, R.id.amount, exchanges.getAmount());
+
+        ViewUtils.setUpSpinner(this, R.id.currencyMaster, R.array.currencies_code,
+                exchanges.getMaster()!=null?exchanges.getMaster().getId():"",
+                c->presenter.onCurrencyMasterChanged(c));
+        ViewUtils.setUpSpinner(this, R.id.currencySlave, R.array.currencies_code,
+                exchanges.getSlave()!=null?exchanges.getSlave().getId():"",
+                c->presenter.onCurrencySlaveChanged(c));
 
     }
 

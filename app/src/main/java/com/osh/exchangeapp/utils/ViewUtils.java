@@ -14,10 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
+import com.osh.exchangeapp.R;
 import com.osh.exchangeapp.activity.ExchangeEditViewActivity;
 
 import javax.inject.Inject;
@@ -195,6 +199,29 @@ public class ViewUtils {
     }
 
 
+    public static void setUpSpinner(Activity root, int id, int dataArrayResId, String selectedText,  OnTextChanged onItemSelected) {
+        View v = findViewById(root, id);
+        if(! (v instanceof Spinner)) return;
+        Spinner spinner = (Spinner) v;
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(root, dataArrayResId, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        int selection = adapter.getPosition(selectedText);
+        if(selection>=0)
+            spinner.setSelection(selection);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onItemSelected.onTextChanged(parent.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 
     public static void setText(Activity root, int id, float f) {
         View v = findViewById(root, id);

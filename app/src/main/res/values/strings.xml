@@ -3,5 +3,8 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Exchange widget</string>
     <string name="amount">Amount</string>
+    <string name="show_in_widget">Show in widget</string>
+    <string name="master_currency">From</string>
+    <string name="slave_currency">To</string>
 
 </resources>
