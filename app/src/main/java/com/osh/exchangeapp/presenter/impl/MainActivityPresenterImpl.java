@@ -8,6 +8,7 @@ import com.osh.exchangeapp.domain.Currency;
 import com.osh.exchangeapp.domain.Exchange;
 import com.osh.exchangeapp.domain.ExchangeKey;
 import com.osh.exchangeapp.domain.interactor.ExchangeInterator;
+import com.osh.exchangeapp.navigator.AppNavigator;
 import com.osh.exchangeapp.presenter.MainActivityPresenter;
 import com.osh.exchangeapp.view.MainActivityView;
 
@@ -20,9 +21,12 @@ import java.util.List;
 public class MainActivityPresenterImpl extends BasePresenter<ExchangeInterator, MainActivityView> implements MainActivityPresenter {
 
     private List<ExchangeKey> keys;
+    private AppNavigator appNavigator;
 
-    public MainActivityPresenterImpl(ExchangeInterator exchangeInterator, MainActivityView mainActivityView) {
+
+    public MainActivityPresenterImpl(AppNavigator appNavigator, ExchangeInterator exchangeInterator, MainActivityView mainActivityView) {
         super(exchangeInterator, mainActivityView);
+        this.appNavigator = appNavigator;
     }
 
     private Handler handler;
@@ -50,6 +54,12 @@ public class MainActivityPresenterImpl extends BasePresenter<ExchangeInterator, 
         getView().showWait();
         getModel().getAllCurrencies(this::onCurrencies, this::onError);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(update);
     }
 
     @Override
@@ -91,8 +101,13 @@ public class MainActivityPresenterImpl extends BasePresenter<ExchangeInterator, 
     }
 
     @Override
-    public void onItemClicked(ExchangeKey exchange) {
+    public void onAddNewExchange() {
+        appNavigator.showExchangeEditor(0);
+    }
 
+    @Override
+    public void onItemClicked(ExchangeKey exchange) {
+        appNavigator.showExchangeEditor(exchange.getId());
     }
 
 

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
@@ -11,8 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.osh.exchangeapp.activity.ExchangeEditViewActivity;
+
+import javax.inject.Inject;
 
 public class ViewUtils {
 
@@ -130,6 +138,99 @@ public class ViewUtils {
         View v = findViewById(root, id);
         if(v!=null)
             v.setOnClickListener(clickListener);
+    }
+
+    public static void onClick(Activity root, int id, View.OnClickListener clickListener) {
+        View v = findViewById(root, id);
+        if(v!=null)
+            v.setOnClickListener(clickListener);
+    }
+
+    public static void onTextChanged(Activity root, int id, @NonNull OnTextChanged onTextChanged) {
+        View v = findViewById(root, id);
+        if(v!=null)
+            if(v instanceof EditText)
+                ((EditText) v).addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        onTextChanged.onTextChanged(s.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+    }
+
+    public static void onTextChangedAsInt(Activity root, int id, @NonNull OnTextChangedAsInt onTextChanged) {
+        onTextChanged(root, id, text -> {
+            Integer ret = null;
+            try{
+                ret = Integer.parseInt(text);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            if(ret!=null)
+                onTextChanged.onTextChanged(ret);
+        });
+    }
+
+    public static void onTextChangedAsDecimal(Activity root, int id, @NonNull OnTextChangedAsDecimal onTextChanged) {
+        onTextChanged(root, id, text -> {
+            Float ret = null;
+            try{
+                ret = Float.parseFloat(text);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            if(ret!=null)
+                onTextChanged.onTextChanged(ret);
+        });
+    }
+
+
+
+    public static void setText(Activity root, int id, float f) {
+        View v = findViewById(root, id);
+        if(v!=null)
+            if(v instanceof EditText){
+                ((EditText) v).setText(Float.toString(f));
+            }
+    }
+
+    public static void setText(Activity root, int id, int i) {
+        View v = findViewById(root, id);
+        if(v!=null)
+            if(v instanceof EditText){
+                ((EditText) v).setText(Integer.toString(i));
+            }
+    }
+
+    public static void setText(Activity root, int id, String t) {
+        View v = findViewById(root, id);
+        if(v!=null)
+            if(v instanceof EditText){
+                ((EditText) v).setText(t);
+            }
+    }
+
+
+    public interface OnTextChanged{
+        void onTextChanged(String text);
+    }
+
+    public interface OnTextChangedAsInt{
+        void onTextChanged(Integer i);
+    }
+
+    public interface OnTextChangedAsDecimal{
+        void onTextChanged(Float f);
     }
 
     public interface OnEachView{

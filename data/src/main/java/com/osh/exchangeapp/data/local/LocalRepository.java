@@ -16,4 +16,6 @@ import io.reactivex.Observable;
 
 public interface LocalRepository {
     void clean();
+
+
 }

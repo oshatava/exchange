@@ -22,6 +22,9 @@ public interface ExchangeRepository {
 
     // Saved Exchange rates to show
     Observable<List<ExchangeKey>> getExchangeKeys();
+    Observable<ExchangeKey> getExchangeKey(int id);
+
+    Observable<ExchangeKey> setExchangeKey(ExchangeKey exchangeKey);
     Observable<Void> setExchangeKeys(List<ExchangeKey> exchangeKeys);
     Observable<List<ExchangeKey>> createDefaultExchangeKeys();
 

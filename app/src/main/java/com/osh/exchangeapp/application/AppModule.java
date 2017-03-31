@@ -6,6 +6,7 @@ import com.osh.exchangeapp.data.retrofit.di.RetrofitModule;
 import com.osh.exchangeapp.domain.executor.PostExecutionThread;
 import com.osh.exchangeapp.domain.executor.ThreadExecutor;
 import com.osh.exchangeapp.domain.interactor.InteractorModule;
+import com.osh.exchangeapp.navigator.AppNavigator;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,6 +23,11 @@ import io.reactivex.schedulers.Schedulers;
         InteractorModule.class // interactors
 })
 public class AppModule  {
+    private AppNavigator navigator;
+
+    public AppModule(AppNavigator navigator) {
+        this.navigator = navigator;
+    }
 
     @Provides
     public ThreadExecutor provideThreadExecutor(){
@@ -33,4 +39,8 @@ public class AppModule  {
         return () -> AndroidSchedulers.mainThread();
     }
 
+    @Provides
+    public AppNavigator provideAppNavigator(){
+        return navigator;
+    }
 }

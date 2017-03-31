@@ -84,6 +84,23 @@ public class ExchangeLocalRepositoryImpl extends BaseLocalRepository<ExchangeLoc
     }
 
     @Override
+    public ExchangeKey getExchangeKey(int id) {
+        ExchangeKeyLocal key = RealmUtils.get(id, ExchangeKeyLocal.class);
+        return exchangeKeyMapper.fromLocal(key);
+    }
+
+
+    @Override
+    public void setExchangeKey(ExchangeKey exchangeKey) {
+        if(exchangeKey.getId()==0){
+            int id = RealmUtils.getMaxId(ExchangeKeyLocal.class)+1;
+            exchangeKey.setId(id);
+        }
+
+        RealmUtils.set(exchangeKeyMapper.toLocal(exchangeKey));
+    }
+
+    @Override
     public void setExchangeKeys(List<ExchangeKey> exchangeKeys) {
         RealmUtils.setAll(ExchangeKeyLocal.class, exchangeKeyMapper.toLocal(exchangeKeys));
     }
@@ -111,17 +128,7 @@ public class ExchangeLocalRepositoryImpl extends BaseLocalRepository<ExchangeLoc
                         new Currency(defaultExchangeRatesMaster[i]),
                         new Currency(defaultExchangeRatesSlave[i]),
                         Constants.RateDataSource.YAHOO.toString(),
-                        1000, -1, -1, -1, false, false, false, id, 10 * 1000);
-
-                list.add(exchangeKeyMapper.toLocal(key));
-            }
-
-            {
-                ExchangeKey key = new ExchangeKey(id++,
-                        new Currency(defaultExchangeRatesMaster[i]),
-                        new Currency(defaultExchangeRatesSlave[i]),
-                        Constants.RateDataSource.YAHOO.toString(),
-                        10400, -1, -1, -1, false, false, false, id, 10 * 1000);
+                        15999, -1, -1, -1, false, false, false, id, 10 * 1000);
 
                 list.add(exchangeKeyMapper.toLocal(key));
             }

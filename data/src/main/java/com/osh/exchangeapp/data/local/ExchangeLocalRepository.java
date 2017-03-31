@@ -19,7 +19,10 @@ public interface ExchangeLocalRepository extends LocalRepository  {
     void createCurrencies();
 
     // Saved Exchange rates to show
+    ExchangeKey getExchangeKey(int id);
     List<ExchangeKey> getExchangeKeys();
+
+    void setExchangeKey(ExchangeKey exchangeKey);
     void setExchangeKeys(List<ExchangeKey> exchangeKeys);
     List<ExchangeKey> createDefaultExchangeKeys();
 

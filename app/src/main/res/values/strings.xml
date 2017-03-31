@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">ExchangeApp</string>
+    <string name="app_name">Exchange</string>
     <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="add_widget">Exchange widget</string>
+    <string name="amount">Amount</string>
 
 </resources>

@@ -7,7 +7,7 @@ import com.osh.exchangeapp.view.interfaces.IView;
 import java.lang.ref.WeakReference;
 
 
-public class BasePresenter<Model extends Interactor, View extends IView> implements Presenter {
+public class BasePresenter<Model extends Interactor, View extends IView> implements Presenter<View> {
 
     private Model model;
     private WeakReference<View> viewRef;
@@ -34,12 +34,18 @@ public class BasePresenter<Model extends Interactor, View extends IView> impleme
         return viewRef!=null && viewRef.get()!=null;
     }
 
+    @Override
     public void setView(View view) {
         this.viewRef = new WeakReference<View>(view);
     }
 
     @Override
     public void onStart() {}
+
+    @Override
+    public void onPause() {
+
+    }
 
     @Override
     public void onStop() {

@@ -65,7 +65,7 @@ public class ExchangeMapper extends BaseMapper<Exchange, ExchangeLocal, Exchange
 
 
     private long dateFromString(String date, String time) {
-        SimpleDateFormat format = new SimpleDateFormat("d/M/yyyy hh:mma");
+        SimpleDateFormat format = new SimpleDateFormat("M/d/yyyy hh:mma");
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
             Date dt = format.parse(date + " " + time);

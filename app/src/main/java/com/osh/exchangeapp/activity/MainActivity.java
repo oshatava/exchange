@@ -9,6 +9,7 @@ import com.osh.exchangeapp.R;
 import com.osh.exchangeapp.domain.Exchange;
 import com.osh.exchangeapp.domain.ExchangeKey;
 import com.osh.exchangeapp.domain.interactor.ExchangeInterator;
+import com.osh.exchangeapp.navigator.AppNavigator;
 import com.osh.exchangeapp.presenter.MainActivityPresenter;
 import com.osh.exchangeapp.presenter.impl.MainActivityPresenterImpl;
 import com.osh.exchangeapp.utils.ViewUtils;
@@ -35,12 +36,15 @@ public class MainActivity extends BaseActivity implements MainActivityView {
     @Inject
     public ExchangeInterator interactor;
 
+    @Inject
+    public AppNavigator navigator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getAppComponent().inject(this);
         setContentView(R.layout.activity_main);
-        presenter = new MainActivityPresenterImpl(interactor, this);
+        presenter = new MainActivityPresenterImpl(navigator, interactor, this);
 
         refresh = ViewUtils.findViewById(this, R.id.refresh);
         refresh.setOnRefreshListener(() -> presenter.onUpdateRates());
@@ -55,18 +59,27 @@ public class MainActivity extends BaseActivity implements MainActivityView {
             });
             list.setAdapter(adapter);
         }
+        ViewUtils.onClick(this, R.id.add, v -> presenter.onAddNewExchange());
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        presenter.setView(this);
         presenter.onStart();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        presenter.onPause();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         presenter.onStop();
     }
 

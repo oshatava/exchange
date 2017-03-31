@@ -1,5 +1,6 @@
 package com.osh.exchangeapp.application;
 
+import com.osh.exchangeapp.activity.ExchangeEditViewActivity;
 import com.osh.exchangeapp.activity.MainActivity;
 import com.osh.exchangeapp.widgets.ExchangeRateWidget;
 
@@ -15,4 +16,5 @@ import dagger.Component;
 public interface AppComponent {
     void inject(MainActivity mainActivity);
     void inject(ExchangeRateWidget exchangeRateWidget);
+    void inject(ExchangeEditViewActivity exchangeEditActivity);
 }

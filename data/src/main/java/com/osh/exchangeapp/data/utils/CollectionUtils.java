@@ -20,7 +20,6 @@ public class CollectionUtils {
 
 
     public static <T> boolean exist(List <T> in, T item, Compare<T> comparator){
-        List<T> out = new ArrayList<T>();
         for(T t:in){
             if(comparator.isEqual(t, item))
                 return true;
@@ -30,7 +29,6 @@ public class CollectionUtils {
     }
 
     public static <T, A> T find(List <T> in, Check<T> finder){
-        List<T> out = new ArrayList<T>();
         for(T t:in){
             if(finder.is(t))
                 return t;

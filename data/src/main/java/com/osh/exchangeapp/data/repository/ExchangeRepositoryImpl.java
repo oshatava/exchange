@@ -82,6 +82,30 @@ public class ExchangeRepositoryImpl extends BaseRepository<ExchangeLocalReposito
     }
 
     @Override
+    public Observable<ExchangeKey> getExchangeKey(int id) {
+        return Observable.create(e -> {
+            try {
+                ExchangeKey exchangeKey = getLocalRepository().getExchangeKey(id);
+                if(exchangeKey!=null) {
+                    List<RateSourceDescription> rate = new ArrayList<>();
+                    //CollectionMapper.map(rate, exchangeKeys, ExchangeKey::getKey);
+                    rate.add(exchangeKey.getKey());
+                    List<Exchange> exchanges = getExchangeRatesSync(rate);
+                    if(exchanges!=null)
+                        if(exchanges.size()>0)
+                            exchangeKey.setExchange(exchanges.get(0));
+                }
+
+                e.onNext(exchangeKey);
+
+            } catch (Exception ex) {
+                e.onError(ex);
+            }
+            e.onComplete();
+        });
+    }
+
+    @Override
     public Observable<List<ExchangeKey>> getExchangeKeys() {
         return Observable.create(e -> {
             try {
@@ -111,6 +135,19 @@ public class ExchangeRepositoryImpl extends BaseRepository<ExchangeLocalReposito
 
                 e.onNext(exchangeKeys);
 
+            } catch (Exception ex) {
+                e.onError(ex);
+            }
+            e.onComplete();
+        });
+    }
+
+    @Override
+    public Observable<ExchangeKey> setExchangeKey(ExchangeKey exchangeKey) {
+        return Observable.create(e -> {
+            try {
+                getLocalRepository().setExchangeKey(exchangeKey);
+                e.onNext(exchangeKey);
             } catch (Exception ex) {
                 e.onError(ex);
             }

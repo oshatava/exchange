@@ -32,6 +32,12 @@ public class ExchangeKey {
         this.source = source;
     }
 
+    public ExchangeKey() {
+        this.amount = 1f;
+    }
+
+
+
     public ExchangeKey(int id,
                        Currency master,
                        Currency slave,
@@ -62,7 +68,10 @@ public class ExchangeKey {
 
     @Override
     public String toString() {
-        return master.getId()+"/"+slave.getId();
+        if(master!=null && slave!=null)
+            return master.getId()+"/"+slave.getId();
+        else
+            return super.toString();
     }
 
     public void setId(int id) {

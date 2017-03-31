@@ -46,8 +46,18 @@ public class ExchangeInterator extends BaseInteractor<ExchangeRepository> {
         execute(getRepository().getExchangeKeys(), onExchangeKeys, onError);
     }
 
+
+    public void getExchangeKey(int id, Consumer<ExchangeKey> onExchangeKey, Consumer<Throwable> onError){
+        execute(getRepository().getExchangeKey(id), onExchangeKey, onError);
+    }
+
+
     public void setExchangeKeys(List<ExchangeKey> keys, Consumer<Void> onExchange, Consumer<Throwable> onError){
         execute(getRepository().setExchangeKeys(keys), onExchange, onError);
+    }
+
+    public void setExchangeKey(ExchangeKey key, Consumer<ExchangeKey> onExchange, Consumer<Throwable> onError){
+        execute(getRepository().setExchangeKey(key), onExchange, onError);
     }
 
     public void createCurrencies(Consumer<Void> onOk, Consumer<Throwable> onError) {
