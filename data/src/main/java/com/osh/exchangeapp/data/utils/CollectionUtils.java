@@ -237,6 +237,14 @@ public class CollectionUtils {
             return this;
         }
 
+        public Builder<T> insert(T ... s) {
+            int i = 0;
+            for(T l:s) {
+                list.add(i++, l);
+            }
+            return this;
+        }
+
         public Builder<T> clone() {
             list = CollectionUtils.clone(list);
             return this;

@@ -31,9 +31,12 @@ public class ExchangeRemoteRepositoryImpl extends BaseRemoteRepository<ExchangeR
     public List<Exchange> getExchangeRates(List<RateSourceDescription> keys) throws Exception {
         StringBuilder keyString = new StringBuilder();
         for (RateSourceDescription key : keys) {
-            if(key.getSourceName().contains(Constants.RateDataSource.YAHOO.toString())) {
-                keyString.append(key.getKey());
-                keyString.append("=x ");
+            String dataSource = key.getSourceName();
+            if(dataSource!=null) {
+                if (key.getSourceName().contains(Constants.RateDataSource.YAHOO.toString())) {
+                    keyString.append(key.getKey());
+                    keyString.append("=x ");
+                }
             }
         }
 

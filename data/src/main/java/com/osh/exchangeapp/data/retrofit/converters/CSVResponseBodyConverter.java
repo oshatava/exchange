@@ -51,14 +51,27 @@ public class CSVResponseBodyConverter implements Converter<ResponseBody, List<Ex
         String [] mskeys = id.split("/");
 
 
-        float lastTrade = Float.parseFloat(fields[1]);
-        float change = Float.parseFloat(fields[2]);
-        float dayLow= Float.parseFloat(fields[3]);
-        float dayHigh= Float.parseFloat(fields[4]);
+        float lastTrade = parseFloat(fields[1]);
+        float change = parseFloat(fields[2]);
+        float dayLow= parseFloat(fields[3]);
+        float dayHigh= parseFloat(fields[4]);
         String date = removeBraces(fields[5]);
         String time =  removeBraces(fields[6]);
 
         return new ExchangeRemote(getSafe(mskeys, 0), getSafe(mskeys, 1), lastTrade, change, dayLow, dayHigh, date, time);
+    }
+
+    private float parseFloat(String data){
+        if(data.contains("N/A")){
+            return 0;
+        }
+        try{
+            return Float.parseFloat(data);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+
     }
 
     private String removeBraces(String field) {

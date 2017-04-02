@@ -146,6 +146,16 @@ public class ExchangeRepositoryImpl extends BaseRepository<ExchangeLocalReposito
     public Observable<ExchangeKey> setExchangeKey(ExchangeKey exchangeKey) {
         return Observable.create(e -> {
             try {
+                int wid = exchangeKey.getWidgetId();
+                if(wid!=0) {
+                    CollectionUtils
+                            .with(getLocalRepository().getExchangeKeys())
+                            .findAll(k->k.getWidgetId()==wid&&k.getId()!=exchangeKey.getId())
+                            .forEach(k-> {
+                                k.setWidgetId(0);
+                                getLocalRepository().setExchangeKey(k);
+                            });
+                }
                 getLocalRepository().setExchangeKey(exchangeKey);
                 e.onNext(exchangeKey);
             } catch (Exception ex) {

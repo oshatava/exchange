@@ -8,8 +8,7 @@ public class Constants {
     public static final long MAX_CACHE_ENTITY_LIFETIME = 60*1000; // 1 minute
 
     public enum RateDataSource{
-        YAHOO,
-        CB_RF
+        YAHOO
     }
 
 }

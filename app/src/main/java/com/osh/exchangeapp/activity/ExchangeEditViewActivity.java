@@ -1,5 +1,7 @@
 package com.osh.exchangeapp.activity;
 
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.osh.exchangeapp.R;
+import com.osh.exchangeapp.data.utils.CollectionUtils;
 import com.osh.exchangeapp.domain.ExchangeKey;
 import com.osh.exchangeapp.domain.interactor.ExchangeInterator;
 import com.osh.exchangeapp.domain.interactor.WidgetInterator;
@@ -23,6 +26,7 @@ import com.osh.exchangeapp.view.ExchangeViewActivityView;
 import com.osh.exchangeapp.view.adapters.ViewEntityAdapter;
 import com.osh.exchangeapp.view.main.ExchangeListItem;
 import com.osh.exchangeapp.view.main.ExchangeListItemListener;
+import com.osh.exchangeapp.widgets.ExchangeRateWidget;
 
 import javax.inject.Inject;
 
@@ -47,7 +51,7 @@ public class ExchangeEditViewActivity extends BaseActivity implements ExchangeVi
         super.onCreate(savedInstanceState);
         getAppComponent().inject(this);
         setContentView(R.layout.activity_exchange_view);
-        presenter = new ExchangeViewActivityPresenterImpl(appNavigator, getId(), interactor, this);
+        presenter = new ExchangeViewActivityPresenterImpl(appNavigator, getId(), widgetInterator, interactor, this);
         ViewUtils.onClick(this, R.id.save, v->presenter.onSave());
         ViewUtils.onClick(this, R.id.cancel, v->presenter.onCancel());
         ViewUtils.onClick(this, R.id.switch_currencies, v->presenter.onSwitchCurrencies());
@@ -83,11 +87,24 @@ public class ExchangeEditViewActivity extends BaseActivity implements ExchangeVi
         ViewUtils.setText(this, R.id.amount, exchanges.getAmount());
 
         ViewUtils.setUpSpinner(this, R.id.currencyMaster, R.array.currencies_code,
-                exchanges.getMaster()!=null?exchanges.getMaster().getId():"",
-                c->presenter.onCurrencyMasterChanged(c));
+                exchanges.getMaster() != null ? exchanges.getMaster().getId() : "",
+                c -> presenter.onCurrencyMasterChanged(c));
         ViewUtils.setUpSpinner(this, R.id.currencySlave, R.array.currencies_code,
-                exchanges.getSlave()!=null?exchanges.getSlave().getId():"",
-                c->presenter.onCurrencySlaveChanged(c));
+                exchanges.getSlave() != null ? exchanges.getSlave().getId() : "",
+                c -> presenter.onCurrencySlaveChanged(c));
+
+        ViewUtils.setUpSpinner(this, R.id.dataSource, R.array.data_source,
+                exchanges.getSource() != null ? exchanges.getSource() : "",
+                c -> presenter.onSourceChanged(c));
+
+        ViewUtils.setUpSpinner(this, R.id.widget,
+                CollectionUtils.with(widgetInterator.getWidgets())
+                        .map(w -> Integer.toString(w.getId()))
+                        .insert("Not")
+                        .list()
+                ,
+                exchanges.getWidgetId() != 0 ? Integer.toString(exchanges.getWidgetId()) : "Not",
+                c -> presenter.onWidgetChanged(c));
 
     }
 

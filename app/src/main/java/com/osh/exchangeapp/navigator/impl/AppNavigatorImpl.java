@@ -1,6 +1,7 @@
 package com.osh.exchangeapp.navigator.impl;
 
 import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 
@@ -9,6 +10,7 @@ import com.osh.exchangeapp.activity.BaseActivity;
 import com.osh.exchangeapp.activity.ExchangeEditViewActivity;
 import com.osh.exchangeapp.activity.MainActivity;
 import com.osh.exchangeapp.navigator.AppNavigator;
+import com.osh.exchangeapp.widgets.ExchangeRateWidget;
 
 import java.lang.ref.WeakReference;
 
@@ -58,6 +60,19 @@ public class AppNavigatorImpl implements AppNavigator {
                     | Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
+    }
+
+    @Override
+    public void updateWidget(int id) {
+        Context context = contextRef.get();
+        if (context == null) return;
+
+        Intent intent = new Intent(context, ExchangeRateWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        int[] ids = {id};
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+        context.sendBroadcast(intent);
+
     }
 
     @Override

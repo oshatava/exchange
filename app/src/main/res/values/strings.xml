@@ -6,5 +6,7 @@
     <string name="show_in_widget">Show in widget</string>
     <string name="master_currency">From</string>
     <string name="slave_currency">To</string>
+    <string name="data_source">Data source</string>
+    <string name="data_n_a">N/A</string>
 
 </resources>

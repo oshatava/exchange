@@ -25,10 +25,21 @@ public class WidgetInterator extends BaseInteractor<WidgetRepository> {
         return getRepository().getOrCreateWidgets(ids);
     }
 
+    public List<Widget> getWidgets(){
+        return getRepository().getWidgets();
+    }
+
+    public Widget getWidget(int id){
+        return getRepository().getWidgetSync(id);
+    }
+
     public List<Widget> setWidgets(List<Widget> widgets){
         return getRepository().setWidgets(widgets);
     }
 
+    public Widget setWidget(Widget widgets){
+        return getRepository().setWidgetSync(widgets);
+    }
 
     public void setWidget(Widget widget, Consumer<Widget> onWidget, Consumer<Throwable> onError){
         execute(getRepository().setWidget(widget), onWidget, onError);

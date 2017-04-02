@@ -21,6 +21,11 @@ public interface WidgetRepository {
     Observable<Void> clearWidgets();
 
     // sync methods
+    List<Widget> getWidgets();
     List<Widget> getOrCreateWidgets(List<Integer> ids);
+    Widget getWidgetSync(int id);
+
     List<Widget> setWidgets(List<Widget> widgets);
+    Widget setWidgetSync(Widget widgets);
+
 }

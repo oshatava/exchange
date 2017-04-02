@@ -263,16 +263,22 @@
         <item>замбийская квача</item>
         <item>российский рубль</item>
     </string-array>
-
+    <string-array name="data_source">
+        <item>YAHOO</item>
+    </string-array>
 
     <string-array name="default_exchange_rates_master">
         <item>USD</item>
         <item>EUR</item>
+        <item>UAH</item>
     </string-array>
 
     <string-array name="default_exchange_rates_slave">
         <item>RUB</item>
         <item>RUB</item>
+        <item>RUB</item>
     </string-array>
+
+
 
 </resources>

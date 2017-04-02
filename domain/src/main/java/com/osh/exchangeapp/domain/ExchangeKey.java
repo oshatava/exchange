@@ -102,6 +102,8 @@ public class ExchangeKey {
     }
 
     public float getAmount() {
+        if(Float.isNaN(amount))
+            return 0f;
         return amount;
     }
 

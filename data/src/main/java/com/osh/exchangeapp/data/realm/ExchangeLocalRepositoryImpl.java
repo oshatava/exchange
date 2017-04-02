@@ -111,27 +111,15 @@ public class ExchangeLocalRepositoryImpl extends BaseLocalRepository<ExchangeLoc
         String [] defaultExchangeRatesMaster = context.getResources().getStringArray(R.array.default_exchange_rates_master);
         String [] defaultExchangeRatesSlave = context.getResources().getStringArray(R.array.default_exchange_rates_slave);
 
-        int id = 0;
-        for (int i=0; i<Math.min(defaultExchangeRatesMaster.length, defaultExchangeRatesSlave.length); i++){
-            {
-                ExchangeKey key = new ExchangeKey(id++,
-                        new Currency(defaultExchangeRatesMaster[i]),
-                        new Currency(defaultExchangeRatesSlave[i]),
-                        Constants.RateDataSource.YAHOO.toString(),
-                        1, -1, -1, -1, false, false, false, id, 10 * 1000, 0);
+        int id = 1;
+        for (int i=0; i<Math.min(defaultExchangeRatesMaster.length, defaultExchangeRatesSlave.length); i++) {
+            ExchangeKey key = new ExchangeKey(id++,
+                    new Currency(defaultExchangeRatesMaster[i]),
+                    new Currency(defaultExchangeRatesSlave[i]),
+                    Constants.RateDataSource.YAHOO.toString(),
+                    1, -1, -1, -1, false, false, false, id, 10 * 1000, 0);
 
-                list.add(exchangeKeyMapper.toLocal(key));
-            }
-
-            {
-                ExchangeKey key = new ExchangeKey(id++,
-                        new Currency(defaultExchangeRatesMaster[i]),
-                        new Currency(defaultExchangeRatesSlave[i]),
-                        Constants.RateDataSource.YAHOO.toString(),
-                        15999, -1, -1, -1, false, false, false, id, 10 * 1000, 0);
-
-                list.add(exchangeKeyMapper.toLocal(key));
-            }
+            list.add(exchangeKeyMapper.toLocal(key));
         }
         RealmUtils.setAll(ExchangeKeyLocal.class, list);
         return exchangeKeyMapper.fromLocal(list);

@@ -72,7 +72,10 @@ public class ExchangeListItem extends BaseDataListItemView<ExchangeKey, Exchange
         masterAmount.setText(format.format(data.getAmount()));
 
         slaveCurrency.setText(data.getSlave().getId());
-        slaveAmount.setText(format.format(data.getLastTrade()));
+        if(data.getLastTrade()==0)
+            slaveAmount.setText(R.string.data_n_a);
+        else
+            slaveAmount.setText(format.format(data.getLastTrade()));
 
         change.setText(formatChange.format(Math.abs(data.getChange())));
         if(data.getChange()>0)

@@ -13,4 +13,6 @@ public interface AppNavigator {
     void showExchangeEditor(int id);
     void setCurrentActivity(BaseActivity activity);
     void back();
+
+    void updateWidget(int id);
 }

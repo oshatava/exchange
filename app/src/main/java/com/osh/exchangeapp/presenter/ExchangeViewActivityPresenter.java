@@ -14,5 +14,7 @@ public interface ExchangeViewActivityPresenter extends Presenter<ExchangeViewAct
     void onAmountChanged(Float t);
     void onCurrencyMasterChanged(String c);
     void onCurrencySlaveChanged(String c);
+    void onSourceChanged(String c);
     void onSwitchCurrencies();
+    void onWidgetChanged(String c);
 }

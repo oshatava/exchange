@@ -5,7 +5,9 @@ import android.os.Looper;
 
 import com.osh.exchangeapp.domain.Currency;
 import com.osh.exchangeapp.domain.ExchangeKey;
+import com.osh.exchangeapp.domain.Widget;
 import com.osh.exchangeapp.domain.interactor.ExchangeInterator;
+import com.osh.exchangeapp.domain.interactor.WidgetInterator;
 import com.osh.exchangeapp.navigator.AppNavigator;
 import com.osh.exchangeapp.presenter.ExchangeViewActivityPresenter;
 import com.osh.exchangeapp.view.ExchangeViewActivityView;
@@ -22,11 +24,13 @@ public class ExchangeViewActivityPresenterImpl extends BasePresenter<ExchangeInt
     private ExchangeKey key;
     private int id;
     private AppNavigator appNavigator;
+    private WidgetInterator widgetInterator;
 
-    public ExchangeViewActivityPresenterImpl(AppNavigator appNavigator, int id, ExchangeInterator exchangeInterator, ExchangeViewActivityView view) {
+    public ExchangeViewActivityPresenterImpl(AppNavigator appNavigator, int id, WidgetInterator widgetInterator, ExchangeInterator exchangeInterator, ExchangeViewActivityView view) {
         super(exchangeInterator, view);
         this.id = id;
         this.appNavigator = appNavigator;
+        this.widgetInterator = widgetInterator;
     }
 
     @Override
@@ -47,8 +51,10 @@ public class ExchangeViewActivityPresenterImpl extends BasePresenter<ExchangeInt
 
     private void onExchangeKeyGot(ExchangeKey exchangeKey) {
         this.key = exchangeKey;
-        if(hasView())
+        if(hasView()) {
+            getView().hideWait();
             getView().showRate(exchangeKey);
+        }
     }
 
 
@@ -61,10 +67,21 @@ public class ExchangeViewActivityPresenterImpl extends BasePresenter<ExchangeInt
 
     private void onExchangeKeySaved(ExchangeKey exchangeKey) {
         this.key = exchangeKey;
+
+        if(key.getWidgetId()!=0){
+            Widget widget = widgetInterator.getWidget(key.getWidgetId());
+            if(widget!=null){
+                widget.setExchangeKeyId(key.getId());
+                widgetInterator.setWidget(widget);
+                appNavigator.updateWidget(key.getWidgetId());
+            }
+        }
+
         if(hasView()) {
             getView().hideWait();
             appNavigator.back();
         }
+
     }
 
     @Override
@@ -86,6 +103,12 @@ public class ExchangeViewActivityPresenterImpl extends BasePresenter<ExchangeInt
     }
 
     @Override
+    public void onSourceChanged(String c) {
+        if (this.key!=null)
+            key.setSource(c);
+    }
+
+    @Override
     public void onSwitchCurrencies() {
         if(this.key!=null){
             Currency master = key.getMaster();
@@ -93,6 +116,22 @@ public class ExchangeViewActivityPresenterImpl extends BasePresenter<ExchangeInt
             key.setMaster(slave);
             key.setSlave(master);
             getView().showRate(this.key);
+        }
+    }
+
+    @Override
+    public void onWidgetChanged(String c) {
+        if (this.key!=null) {
+            if(c.compareToIgnoreCase("not")==0)
+                key.setWidgetId(0);
+            else{
+                try{
+                    int wid = Integer.parseInt(c);
+                    key.setWidgetId(wid);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
