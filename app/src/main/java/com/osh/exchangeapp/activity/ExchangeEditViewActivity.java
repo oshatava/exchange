@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import com.osh.exchangeapp.R;
 import com.osh.exchangeapp.domain.ExchangeKey;
 import com.osh.exchangeapp.domain.interactor.ExchangeInterator;
+import com.osh.exchangeapp.domain.interactor.WidgetInterator;
 import com.osh.exchangeapp.navigator.AppNavigator;
 import com.osh.exchangeapp.presenter.ExchangeViewActivityPresenter;
 import com.osh.exchangeapp.presenter.MainActivityPresenter;
@@ -34,6 +35,9 @@ public class ExchangeEditViewActivity extends BaseActivity implements ExchangeVi
 
     @Inject
     public ExchangeInterator interactor;
+
+    @Inject
+    public WidgetInterator widgetInterator;
 
     @Inject
     public AppNavigator appNavigator;

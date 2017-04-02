@@ -118,7 +118,7 @@ public class ExchangeLocalRepositoryImpl extends BaseLocalRepository<ExchangeLoc
                         new Currency(defaultExchangeRatesMaster[i]),
                         new Currency(defaultExchangeRatesSlave[i]),
                         Constants.RateDataSource.YAHOO.toString(),
-                        1, -1, -1, -1, false, false, false, id, 10 * 1000);
+                        1, -1, -1, -1, false, false, false, id, 10 * 1000, 0);
 
                 list.add(exchangeKeyMapper.toLocal(key));
             }
@@ -128,7 +128,7 @@ public class ExchangeLocalRepositoryImpl extends BaseLocalRepository<ExchangeLoc
                         new Currency(defaultExchangeRatesMaster[i]),
                         new Currency(defaultExchangeRatesSlave[i]),
                         Constants.RateDataSource.YAHOO.toString(),
-                        15999, -1, -1, -1, false, false, false, id, 10 * 1000);
+                        15999, -1, -1, -1, false, false, false, id, 10 * 1000, 0);
 
                 list.add(exchangeKeyMapper.toLocal(key));
             }

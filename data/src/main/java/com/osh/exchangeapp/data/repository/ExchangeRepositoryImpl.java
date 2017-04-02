@@ -121,7 +121,7 @@ public class ExchangeRepositoryImpl extends BaseRepository<ExchangeLocalReposito
                     List<Exchange> exchanges = getExchangeRatesSync(rateUniq);
 
                     CollectionUtils.forEach(exchangeKeys, i -> {
-                        Exchange e1 = CollectionUtils.find(exchanges,
+                        Exchange e1 = CollectionUtils.with(exchanges).findFirst(
                                 exch -> exch.getSlave().getId().equals(i.getSlave().getId())
                                 && exch.getMaster().getId().equals(i.getMaster().getId())
                                 && exch.getSource().equals(i.getSource()));
@@ -178,6 +178,11 @@ public class ExchangeRepositoryImpl extends BaseRepository<ExchangeLocalReposito
             }
             e.onComplete();
         });
+    }
+
+    @Override
+    public void setExchangeKeysSync(List<ExchangeKey> keys) {
+        getLocalRepository().setExchangeKeys(keys);
     }
 
     @Override

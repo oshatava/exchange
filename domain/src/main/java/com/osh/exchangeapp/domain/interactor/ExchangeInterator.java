@@ -56,6 +56,10 @@ public class ExchangeInterator extends BaseInteractor<ExchangeRepository> {
         execute(getRepository().setExchangeKeys(keys), onExchange, onError);
     }
 
+    public void setExchangeKeys(List<ExchangeKey> keys){
+        getRepository().setExchangeKeysSync(keys);
+    }
+
     public void setExchangeKey(ExchangeKey key, Consumer<ExchangeKey> onExchange, Consumer<Throwable> onError){
         execute(getRepository().setExchangeKey(key), onExchange, onError);
     }

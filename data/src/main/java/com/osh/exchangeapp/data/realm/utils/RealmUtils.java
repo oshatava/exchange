@@ -34,7 +34,7 @@ public class RealmUtils {
                 .where(tClass)
                 .equalTo("id", id)
                 .findFirst();
-        T ret = realm.copyFromRealm(result);
+        T ret = result!=null?realm.copyFromRealm(result):null;
         realm.close();
         return ret;
     }
@@ -43,7 +43,7 @@ public class RealmUtils {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<T> realmQuery = query.query(realm.where(tClass));
         final T result = realmQuery.findFirst();
-        T ret = realm.copyFromRealm(result);
+        T ret = result!=null?realm.copyFromRealm(result):null;
         realm.close();
         return ret;
     }

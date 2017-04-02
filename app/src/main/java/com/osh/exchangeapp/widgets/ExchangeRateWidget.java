@@ -3,6 +3,7 @@ package com.osh.exchangeapp.widgets;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -14,8 +15,11 @@ import com.osh.exchangeapp.activity.MainActivity;
 import com.osh.exchangeapp.application.AppComponent;
 import com.osh.exchangeapp.application.AppConst;
 import com.osh.exchangeapp.application.HasAppComponent;
+import com.osh.exchangeapp.data.utils.CollectionUtils;
 import com.osh.exchangeapp.domain.ExchangeKey;
+import com.osh.exchangeapp.domain.Widget;
 import com.osh.exchangeapp.domain.interactor.ExchangeInterator;
+import com.osh.exchangeapp.domain.interactor.WidgetInterator;
 import com.osh.exchangeapp.domain.repository.ExchangeRepository;
 import com.osh.exchangeapp.utils.DateUtils;
 import com.osh.exchangeapp.utils.ViewUtils;
@@ -39,6 +43,9 @@ public class ExchangeRateWidget extends AppWidgetProvider {
 
     @Inject
     public ExchangeInterator interactor;
+
+    @Inject
+    public WidgetInterator widgetInterator;
 
     private void updateAppWidget(Context context, ExchangeKey data, AppWidgetManager appWidgetManager, int appWidgetId) {
 
@@ -89,11 +96,56 @@ public class ExchangeRateWidget extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
 
         getAppComponent(context).inject(this);
+
+        /*
+        int[] _appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass()));
+        if(appWidgetIds!=null)
+            Log.d("WIDGET", "onEnabled" + CollectionUtils.print(_appWidgetIds));
+            */
+
+        List<Widget> widgetList = widgetInterator.getOrCreateWidgets(CollectionUtils.with(appWidgetIds).list());
+        CollectionUtils.Builder<Widget> widgets = CollectionUtils.with(widgetList);
+        /*
+        CollectionUtils.Builder<Widget> widgetsToUpdate = CollectionUtils
+                .with(appWidgetIds)
+                .map(id->widgets.findFirst(w->w.getId()==id));
+                */
+
         interactor.getExchangeKeys(keys -> {
+
+            /*
             for(int i=0; i<Math.min(appWidgetIds.length, keys.size()); i++) {
                 ExchangeKey data = keys.get(i);
                 updateAppWidget(context, data, appWidgetManager, appWidgetIds[i]);
             }
+            */
+
+            CollectionUtils.Builder<ExchangeKey> exchanges = CollectionUtils.with(keys);
+
+            widgets.forEach(w-> {
+                ExchangeKey key = null;
+                if (w.getExchangeKeyId() == 0) {
+                    key = exchanges.findFirst(k -> k.getWidgetId() == 0);
+                    if (key != null) {
+                        key.setWidgetId(w.getId());
+                        w.setExchangeKeyId(key.getId());
+                    }
+                } else {
+                    key = exchanges.findFirst(k -> k.getId() == w.getExchangeKeyId());
+                    if(key==null){
+                        key.setWidgetId(0);
+                    }
+                }
+
+                if(key!=null){
+                    updateAppWidget(context, key, appWidgetManager, w.getId());
+                }
+
+            });
+
+            widgetInterator.setWidgets(widgets.list());
+            interactor.setExchangeKeys(exchanges.list());
+
         }, this::onError);
 
 
@@ -101,12 +153,12 @@ public class ExchangeRateWidget extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
+        Log.d("WIDGET", "onEnabled");
     }
 
     @Override
     public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
+        Log.d("WIDGET", "onDisabled");
     }
 }
 

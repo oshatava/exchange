@@ -34,7 +34,8 @@ public class ExchangeKeyMapper extends BaseMapper<ExchangeKey, ExchangeKeyLocal,
                 u.isNotifyMax(),
                 u.isNotifyMin(),
                 u.getOrder(),
-                u.getUpdatePeriod()
+                u.getUpdatePeriod(),
+                u.getWidgetId()
         );
     }
 
@@ -53,7 +54,8 @@ public class ExchangeKeyMapper extends BaseMapper<ExchangeKey, ExchangeKeyLocal,
                 u.isNotifyMax(),
                 u.isNotifyMin(),
                 u.getOrder(),
-                u.getUpdatePeriod()
+                u.getUpdatePeriod(),
+                u.getWidgetId()
         );
     }
 

@@ -3,7 +3,9 @@ package com.osh.exchangeapp.data.realm.di;
 import android.content.Context;
 
 import com.osh.exchangeapp.data.local.ExchangeLocalRepository;
+import com.osh.exchangeapp.data.local.WidgetLocalRepository;
 import com.osh.exchangeapp.data.realm.ExchangeLocalRepositoryImpl;
+import com.osh.exchangeapp.data.realm.WidgetLocalRepositoryImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -31,6 +33,10 @@ public class RealmModule {
         return new ExchangeLocalRepositoryImpl(context);
     }
 
+    @Provides
+    public WidgetLocalRepository provideWidgetLocalRepository(){
+        return new WidgetLocalRepositoryImpl(context);
+    }
 
 
 }

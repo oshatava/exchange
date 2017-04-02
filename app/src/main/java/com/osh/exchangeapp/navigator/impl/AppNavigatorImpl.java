@@ -1,8 +1,10 @@
 package com.osh.exchangeapp.navigator.impl;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import com.osh.exchangeapp.R;
 import com.osh.exchangeapp.activity.BaseActivity;
 import com.osh.exchangeapp.activity.ExchangeEditViewActivity;
 import com.osh.exchangeapp.activity.MainActivity;
@@ -41,13 +43,21 @@ public class AppNavigatorImpl implements AppNavigator {
     @Override
     public void showMain() {
         Context context = contextRef.get();
-        if(context==null) return;
+        if (context == null) return;
 
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+
+        if (getCurrentActivity() != null) {
+            Intent intent = new Intent(context, MainActivity.class);
+            getCurrentActivity().startActivity(intent);
+            getCurrentActivity().finish();
+            getCurrentActivity().overridePendingTransition(0, R.anim.fade_out);
+        } else {
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    | Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
     }
 
     @Override

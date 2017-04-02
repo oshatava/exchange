@@ -24,6 +24,7 @@ public class ExchangeKeyLocal extends RealmObject {
     private boolean notifyDelta;
     private long updatePeriod;
     private String source;
+    private int widgetId;
 
     public ExchangeKeyLocal() {
 
@@ -47,7 +48,8 @@ public class ExchangeKeyLocal extends RealmObject {
                             boolean notifyMax,
                             boolean notifyMin,
                             int order,
-                            long updatePeriod) {
+                            long updatePeriod,
+                            int widgetId) {
         this.amount = amount;
         this.amountDelta = amountDelta;
         this.amountMax = amountMax;
@@ -61,6 +63,7 @@ public class ExchangeKeyLocal extends RealmObject {
         this.slaveCurrencyId = slaveCurrencyId;
         this.updatePeriod = updatePeriod;
         this.source = source;
+        this.widgetId = widgetId;
     }
 
     public void setOrder(int order) {
@@ -118,6 +121,10 @@ public class ExchangeKeyLocal extends RealmObject {
 
     public String getSource() {
         return source;
+    }
+
+    public int getWidgetId() {
+        return widgetId;
     }
 
     @Override

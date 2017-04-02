@@ -28,6 +28,8 @@ public interface ExchangeRepository {
     Observable<Void> setExchangeKeys(List<ExchangeKey> exchangeKeys);
     Observable<List<ExchangeKey>> createDefaultExchangeKeys();
 
+    void setExchangeKeysSync(List<ExchangeKey> keys);
+
     // Retrieve actual Exchange rates for keys
     Observable<List<Exchange>> getExchangeRates(List<RateSourceDescription> keys);
 

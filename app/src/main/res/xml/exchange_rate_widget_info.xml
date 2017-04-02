@@ -4,7 +4,7 @@
     android:initialLayout="@layout/exchange_rate_widget"
     android:minHeight="55dp"
     android:minWidth="250dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/ic_widget_light"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"
