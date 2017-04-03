@@ -8,5 +8,6 @@
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="1800000"
     android:widgetCategory="home_screen"
+    android:configure="com.osh.exchangeapp.activity.WidgetEditActivity"
     >
 </appwidget-provider>

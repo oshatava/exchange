@@ -97,50 +97,22 @@ public class ExchangeRateWidget extends AppWidgetProvider {
 
         getAppComponent(context).inject(this);
 
-        /*
-        int[] _appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, this.getClass()));
-        if(appWidgetIds!=null)
-            Log.d("WIDGET", "onEnabled" + CollectionUtils.print(_appWidgetIds));
-            */
-
         List<Widget> widgetList = widgetInterator.getOrCreateWidgets(CollectionUtils.with(appWidgetIds).list());
         CollectionUtils.Builder<Widget> widgets = CollectionUtils.with(widgetList);
-        /*
-        CollectionUtils.Builder<Widget> widgetsToUpdate = CollectionUtils
-                .with(appWidgetIds)
-                .map(id->widgets.findFirst(w->w.getId()==id));
-                */
 
         interactor.getExchangeKeys(keys -> {
 
-            /*
-            for(int i=0; i<Math.min(appWidgetIds.length, keys.size()); i++) {
-                ExchangeKey data = keys.get(i);
-                updateAppWidget(context, data, appWidgetManager, appWidgetIds[i]);
-            }
-            */
-
             CollectionUtils.Builder<ExchangeKey> exchanges = CollectionUtils.with(keys);
+
 
             widgets.forEach(w-> {
                 ExchangeKey key = null;
-                if (w.getExchangeKeyId() == 0) {
-                    key = exchanges.findFirst(k -> k.getWidgetId() == 0);
-                    if (key != null) {
-                        key.setWidgetId(w.getId());
-                        w.setExchangeKeyId(key.getId());
-                    }
-                } else {
+                if (w.getExchangeKeyId() != 0) {
                     key = exchanges.findFirst(k -> k.getId() == w.getExchangeKeyId());
-                    if(key==null){
-                        key.setWidgetId(0);
-                    }
                 }
-
                 if(key!=null){
                     updateAppWidget(context, key, appWidgetManager, w.getId());
                 }
-
             });
 
             widgetInterator.setWidgets(widgets.list());
@@ -149,6 +121,15 @@ public class ExchangeRateWidget extends AppWidgetProvider {
         }, this::onError);
 
 
+    }
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
+        getAppComponent(context).inject(this);
+        CollectionUtils
+                .with(appWidgetIds)
+                .forEach(id -> widgetInterator.removeWidget(id));
     }
 
     @Override

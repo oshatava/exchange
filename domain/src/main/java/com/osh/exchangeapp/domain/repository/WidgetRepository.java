@@ -28,4 +28,6 @@ public interface WidgetRepository {
     List<Widget> setWidgets(List<Widget> widgets);
     Widget setWidgetSync(Widget widgets);
 
+    void removeWidget(Integer id);
+
 }

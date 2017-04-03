@@ -41,24 +41,27 @@ public class ExchangeEditViewActivity extends BaseActivity implements ExchangeVi
     public ExchangeInterator interactor;
 
     @Inject
-    public WidgetInterator widgetInterator;
-
-    @Inject
     public AppNavigator appNavigator;
+
+    protected ExchangeViewActivityPresenter getPresenter() {
+        return presenter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getAppComponent().inject(this);
         setContentView(R.layout.activity_exchange_view);
-        presenter = new ExchangeViewActivityPresenterImpl(appNavigator, getId(), widgetInterator, interactor, this);
-        ViewUtils.onClick(this, R.id.save, v->presenter.onSave());
-        ViewUtils.onClick(this, R.id.cancel, v->presenter.onCancel());
-        ViewUtils.onClick(this, R.id.switch_currencies, v->presenter.onSwitchCurrencies());
+        presenter = new ExchangeViewActivityPresenterImpl(appNavigator, getId(), interactor, this);
 
-        ViewUtils.onTextChangedAsDecimal(this, R.id.amount, t->presenter.onAmountChanged(t));
+        initView();
+    }
 
-
+    private void initView(){
+        ViewUtils.onClick(this, R.id.save, v->getPresenter().onSave());
+        ViewUtils.onClick(this, R.id.cancel, v->getPresenter().onCancel());
+        ViewUtils.onClick(this, R.id.switch_currencies, v->getPresenter().onSwitchCurrencies());
+        ViewUtils.onTextChangedAsDecimal(this, R.id.amount, t->getPresenter().onAmountChanged(t));
     }
 
     private int getId() {
@@ -96,20 +99,6 @@ public class ExchangeEditViewActivity extends BaseActivity implements ExchangeVi
         ViewUtils.setUpSpinner(this, R.id.dataSource, R.array.data_source,
                 exchanges.getSource() != null ? exchanges.getSource() : "",
                 c -> presenter.onSourceChanged(c));
-
-        ViewUtils.setUpSpinner(this, R.id.widget,
-                CollectionUtils.with(widgetInterator.getWidgets())
-                        .map(w -> Integer.toString(w.getId()))
-                        .insert("Not")
-                        .list()
-                ,
-                exchanges.getWidgetId() != 0 ? Integer.toString(exchanges.getWidgetId()) : "Not",
-                c -> presenter.onWidgetChanged(c));
-
     }
 
-    @Override
-    public void close() {
-        this.finish();
-    }
 }

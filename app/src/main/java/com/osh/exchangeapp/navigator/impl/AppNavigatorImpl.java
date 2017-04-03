@@ -76,6 +76,14 @@ public class AppNavigatorImpl implements AppNavigator {
     }
 
     @Override
+    public void backSuccessful() {
+        if(getCurrentActivity()!=null) {
+            getCurrentActivity().setResult(Activity.RESULT_OK);
+            getCurrentActivity().finish();
+        }
+    }
+
+    @Override
     public void back() {
         if(getCurrentActivity()!=null)
             getCurrentActivity().finish();

@@ -24,13 +24,11 @@ public class ExchangeViewActivityPresenterImpl extends BasePresenter<ExchangeInt
     private ExchangeKey key;
     private int id;
     private AppNavigator appNavigator;
-    private WidgetInterator widgetInterator;
 
-    public ExchangeViewActivityPresenterImpl(AppNavigator appNavigator, int id, WidgetInterator widgetInterator, ExchangeInterator exchangeInterator, ExchangeViewActivityView view) {
+    public ExchangeViewActivityPresenterImpl(AppNavigator appNavigator, int id, ExchangeInterator exchangeInterator, ExchangeViewActivityView view) {
         super(exchangeInterator, view);
         this.id = id;
         this.appNavigator = appNavigator;
-        this.widgetInterator = widgetInterator;
     }
 
     @Override
@@ -67,15 +65,6 @@ public class ExchangeViewActivityPresenterImpl extends BasePresenter<ExchangeInt
 
     private void onExchangeKeySaved(ExchangeKey exchangeKey) {
         this.key = exchangeKey;
-
-        if(key.getWidgetId()!=0){
-            Widget widget = widgetInterator.getWidget(key.getWidgetId());
-            if(widget!=null){
-                widget.setExchangeKeyId(key.getId());
-                widgetInterator.setWidget(widget);
-                appNavigator.updateWidget(key.getWidgetId());
-            }
-        }
 
         if(hasView()) {
             getView().hideWait();
@@ -116,22 +105,6 @@ public class ExchangeViewActivityPresenterImpl extends BasePresenter<ExchangeInt
             key.setMaster(slave);
             key.setSlave(master);
             getView().showRate(this.key);
-        }
-    }
-
-    @Override
-    public void onWidgetChanged(String c) {
-        if (this.key!=null) {
-            if(c.compareToIgnoreCase("not")==0)
-                key.setWidgetId(0);
-            else{
-                try{
-                    int wid = Integer.parseInt(c);
-                    key.setWidgetId(wid);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
         }
     }
 

@@ -10,5 +10,4 @@ import java.util.List;
  */
 public interface ExchangeViewActivityView extends IView {
     void showRate(ExchangeKey exchanges);
-    void close();
 }

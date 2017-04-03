@@ -281,5 +281,8 @@ public class CollectionUtils {
         }
 
 
+        public boolean contains(T i) {
+            return list.contains(i);
+        }
     }
 }

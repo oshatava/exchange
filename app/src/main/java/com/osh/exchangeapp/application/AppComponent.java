@@ -3,6 +3,7 @@ package com.osh.exchangeapp.application;
 import com.osh.exchangeapp.activity.ExchangeEditViewActivity;
 import com.osh.exchangeapp.activity.MainActivity;
 import com.osh.exchangeapp.activity.SplashActivity;
+import com.osh.exchangeapp.activity.WidgetEditActivity;
 import com.osh.exchangeapp.widgets.ExchangeRateWidget;
 
 import javax.inject.Singleton;
@@ -19,4 +20,5 @@ public interface AppComponent {
     void inject(ExchangeRateWidget exchangeRateWidget);
     void inject(ExchangeEditViewActivity exchangeEditActivity);
     void inject(SplashActivity splashActivity);
+    void inject(WidgetEditActivity widgetEditActivity);
 }

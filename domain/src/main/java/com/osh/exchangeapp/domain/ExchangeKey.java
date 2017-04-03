@@ -22,7 +22,6 @@ public class ExchangeKey {
     private int order;
     private String source;
     private Exchange exchange;
-    private int widgetId;
 
     public ExchangeKey(int id, Currency master, Currency slave, int order, String source) {
         this.id = id;
@@ -51,8 +50,7 @@ public class ExchangeKey {
                        boolean notifyMax,
                        boolean notifyMin,
                        int order,
-                       long updatePeriod,
-                       int widgetId) {
+                       long updatePeriod) {
         this.id = id;
         this.amount = amount;
         this.amountDelta = amountDelta;
@@ -66,7 +64,6 @@ public class ExchangeKey {
         this.updatePeriod = updatePeriod;
         this.order = order;
         this.source = source;
-        this.widgetId = widgetId;
     }
 
     @Override
@@ -230,11 +227,4 @@ public class ExchangeKey {
         return 0;
     }
 
-    public int getWidgetId() {
-        return widgetId;
-    }
-
-    public void setWidgetId(int widgetId) {
-        this.widgetId = widgetId;
-    }
 }

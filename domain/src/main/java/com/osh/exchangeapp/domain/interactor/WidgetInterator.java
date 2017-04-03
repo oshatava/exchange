@@ -37,6 +37,10 @@ public class WidgetInterator extends BaseInteractor<WidgetRepository> {
         return getRepository().setWidgets(widgets);
     }
 
+    public void removeWidget(Integer id) {
+        getRepository().removeWidget(id);
+    }
+
     public Widget setWidget(Widget widgets){
         return getRepository().setWidgetSync(widgets);
     }

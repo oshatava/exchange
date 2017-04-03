@@ -117,7 +117,8 @@ public class RealmUtils {
                 .where(tClass)
                 .equalTo("id", id)
                 .findAll();
-        results.deleteAllFromRealm();
+        if(results.size()>0)
+            results.deleteAllFromRealm();
         realm.commitTransaction();
     }
 
